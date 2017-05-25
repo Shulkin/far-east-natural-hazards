@@ -1,0 +1,34 @@
+{
+  "name": "far-east-natural-hazards",
+  "version": "1.0.0",
+  "description": "Map of dangerous natural phenomena on Russian Far East",
+  "main": "server.js",
+  "scripts": {
+    "dev": "webpack-dev-server --devtool eval-source-map --progress --colors",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack -p",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "openlayers",
+    "map",
+    "natural",
+    "hazards",
+    "far east",
+    "nature"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shulkin/far-east-natural-hazards.git"
+  },
+  "author": "Evgeny Shulkin <evgeny.shulkin@gmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Shulkin/far-east-natural-hazards/issues"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 10 versions"
+  ],
+  "homepage": "https://github.com/Shulkin/far-east-natural-hazards#readme"
+}
