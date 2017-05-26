@@ -3,4 +3,4 @@
 require("../index.html");
 require("../favicon.ico");
 // require styles
-require("../style.scss");
+require("../css/style.scss");
