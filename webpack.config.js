@@ -24,8 +24,12 @@ var config = {
       }
     }, { // convert sass to css
       test: /\.(sass|scss)$/,
+      // look only in application css folder
       include: [path.resolve(__dirname, "src/css")],
       use: ["style-loader", "css-loader", "sass-loader"]
+    }, { // import regular css
+      test: /\.css$/,
+      use: ["style-loader", "css-loader"]
     }, { // copy static html and favicon
       test: /\.(html|ico)$/,
       include: [path.resolve(__dirname, "src")],
