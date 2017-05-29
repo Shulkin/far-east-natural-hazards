@@ -1,14 +1,12 @@
+var webpack = require("webpack");
 var path = require("path");
 var config = {
   context: path.resolve(__dirname, "src"),
   entry: {
     // main entry point to application
-    main: "./js/index.js",
+    main: "./js/main.js",
     // third-party libraries (not installed in node_modules!)
-    vendor: [
-      // custom minified build of openlayers3
-      "./vendor/ol3/ol-custom.js"
-    ]
+    vendor: "./vendor/vendor.js"
   },
   output: { // path to output
     path: path.resolve(__dirname, "dist"),
@@ -34,11 +32,11 @@ var config = {
       use: ["file-loader?name=[path][name].[ext]"]
     }]
   },
-  plugins: {
+  plugins: [
     new webpack.optimize.CommonsChunkPlugin({
-      name: "vendor"
+      name: "vendor" // specify the common bundle name
     })
-  },
+  ],
   devServer: { // development server
     contentBase: path.resolve(__dirname, "dist"),
     compress: true, // enable gzip compression
