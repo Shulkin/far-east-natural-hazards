@@ -1,11 +1,19 @@
 var path = require("path");
 var config = {
   context: path.resolve(__dirname, "src"),
-  // main entry point to application
-  entry: "./js/index.js",
-  output: { // path to output bundle
+  entry: {
+    // main entry point to application
+    main: "./js/index.js",
+    // third-party libraries (not installed in node_modules!)
+    vendor: [
+      // custom minified build of openlayers3
+      "./vendor/ol3/ol-custom.js"
+    ]
+  },
+  output: { // path to output
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js"
+    // separate app and openlayers3 bundle
+    filename: "bundle.[name].js"
   },
   watch: true, // rebuild when file changes
   module: {
@@ -25,6 +33,11 @@ var config = {
       include: [path.resolve(__dirname, "src")],
       use: ["file-loader?name=[path][name].[ext]"]
     }]
+  },
+  plugins: {
+    new webpack.optimize.CommonsChunkPlugin({
+      name: "vendor"
+    })
   },
   devServer: { // development server
     contentBase: path.resolve(__dirname, "dist"),
