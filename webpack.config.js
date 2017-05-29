@@ -5,18 +5,18 @@ var config = {
   entry: {
     // main entry point to application
     main: "./js/main.js",
-    // third-party libraries (not installed in node_modules!)
+    // entry point for third-party libraries
     vendor: "./vendor/vendor.js"
   },
-  output: { // path to output
+  output: { // path to separate output bundles
     path: path.resolve(__dirname, "dist"),
-    // separate app and openlayers3 bundle
     filename: "bundle.[name].js"
   },
   watch: true, // rebuild when file changes
   module: {
     rules: [{ // allows to use ES 2015 features
       test: /\.js$/,
+      // look in application javascript folder
       include: [path.resolve(__dirname, "src/js")],
       use: {
         loader: "babel-loader",
@@ -28,17 +28,19 @@ var config = {
       include: [path.resolve(__dirname, "src/css")],
       use: ["style-loader", "css-loader", "sass-loader"]
     }, { // import regular css
-      test: /\.css$/,
+      test: /\.css$/, // wherever they are
       use: ["style-loader", "css-loader"]
     }, { // copy static html and favicon
       test: /\.(html|ico)$/,
+      // Only from source folder root
       include: [path.resolve(__dirname, "src")],
       use: ["file-loader?name=[path][name].[ext]"]
     }]
   },
   plugins: [
+    // optimize modules separation with plugin
     new webpack.optimize.CommonsChunkPlugin({
-      name: "vendor" // specify the common bundle name
+      name: "vendor" // specify the common bundle's name
     })
   ],
   devServer: { // development server
