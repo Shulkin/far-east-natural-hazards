@@ -37,7 +37,6 @@
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "jquery": "^3.2.1",
-    "jquery-resizable-dom": "^0.20.0",
     "method-override": "^2.3.7",
     "serve-favicon": "^2.3.2"
   },
