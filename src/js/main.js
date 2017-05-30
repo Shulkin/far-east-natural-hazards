@@ -1,6 +1,8 @@
 /* === Main entry point to application === */
 // require static assets
-require("../index.html");
-require("../favicon.ico");
+import "../index.html";
+import "../favicon.ico";
 // require styles
-require("../css/style.scss");
+import "../css/style.scss";
+// require app script
+import "./app.js";
