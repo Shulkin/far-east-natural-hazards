@@ -32,11 +32,12 @@
   ],
   "homepage": "https://github.com/Shulkin/far-east-natural-hazards#readme",
   "dependencies": {
-    "angular": "^1.6.3",
+    "angular": "^1.6.4",
     "angular-ui-router": "^0.4.2",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
-    "jquery": "^3.1.1",
+    "jquery": "^3.2.1",
+    "jquery-resizable-dom": "^0.20.0",
     "method-override": "^2.3.7",
     "serve-favicon": "^2.3.2"
   },
