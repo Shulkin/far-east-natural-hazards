@@ -4,7 +4,7 @@ var config = {
   context: path.resolve(__dirname, "src"),
   entry: {
     // main entry point to application
-    main: "./js/main.js",
+    main: "./app/main.js",
     // entry point for third-party libraries
     vendor: "./vendor/vendor.js"
   },
@@ -16,16 +16,14 @@ var config = {
   module: {
     rules: [{ // allows to use ES 2015 features
       test: /\.js$/,
-      // look in application javascript folder
-      include: [path.resolve(__dirname, "src/js")],
+      // don't parse node_modules and vendor libraries
+      exclude: [/node_modules/, path.resolve(__dirname, "src/vendor")]
       use: {
         loader: "babel-loader",
         options: {presets: ["es2015"]}
       }
     }, { // convert sass to css
       test: /\.(sass|scss)$/,
-      // look only in application css folder
-      include: [path.resolve(__dirname, "src/css")],
       use: ["style-loader", "css-loader", "sass-loader"]
     }, { // import regular css
       test: /\.css$/, // wherever they are

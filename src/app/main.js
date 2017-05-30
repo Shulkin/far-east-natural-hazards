@@ -3,6 +3,6 @@
 import "../index.html";
 import "../favicon.ico";
 // require styles
-import "../css/style.scss";
+import "./common/common.style.scss";
 // require app script
 import "./app.js";
