@@ -4,4 +4,6 @@
 html, body {
   font-family: "Arial", sans-serif;
   text-rendering: optimizeLegibility;
+  // rewrite bulma y-scrollbar
+  overflow-y: auto !important;
 }
