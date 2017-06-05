@@ -1,6 +1,13 @@
-.name {
-  color: red;
+.name {color: red;}
+// main title
+h1 {
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
+// prevent title overflow in navbar
+.nav-left {overflow: hidden;}
+// close gap to aside
+.main-panel {padding-left: 0;}
 .aside {
   padding-right: 0; // close gap to main-panel
   background-color: #232b2d;
@@ -18,7 +25,7 @@
       color: whitesmoke;
       letter-spacing: 2px;
       text-transform: uppercase;
-      // clip if title too long
+      // clip if legend title is too long
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -30,11 +37,8 @@
     a {color: darkgray;}
     a:hover {color: #00b69b;}
     .icon { // align icons with text
-      display: inline;
-      margin-right: .25rem;
+      vertical-align: text-top;
+      justify-content: flex-start;
     }
   }
-}
-.main-panel {
-  padding-left: 0; // close gap to aside
 }
