@@ -29,6 +29,10 @@
     p {color: lightgray;}
     a {color: darkgray;}
     a:hover {color: #00b69b;}
+    .icon { // align icons with text
+      display: inline;
+      margin-right: .25rem;
+    }
   }
 }
 .main-panel {
