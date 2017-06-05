@@ -1,3 +1,36 @@
 .name {
   color: red;
 }
+.aside {
+  padding-right: 0; // close gap to main-panel
+  background-color: #232b2d;
+  .is-fullheight { // take full viewport height
+    min-height: 100vh;
+  }
+  .title {
+    height: 3.25rem; // same as nav in main-panel
+    padding: .25rem;
+    background-color: #2eb398;
+    box-shadow: 0 2px 3px rgba(46, 179, 152, 0.1);
+    p {
+      padding: .25rem;
+      font-weight: 400;
+      color: whitesmoke;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      // clip if title too long
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .menu {
+    padding: .5rem;
+    p {color: lightgray;}
+    a {color: darkgray;}
+    a:hover {color: #00b69b;}
+  }
+}
+.main-panel {
+  padding-left: 0; // close gap to aside
+}
