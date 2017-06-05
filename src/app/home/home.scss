@@ -8,12 +8,11 @@ h1 {
 .nav-left {overflow: hidden;}
 // close gap to aside
 .main-panel {padding-left: 0;}
+// take full viewport height
+.is-fullheight {min-height: 100vh;}
 .aside {
   padding-right: 0; // close gap to main-panel
   background-color: #232b2d;
-  .is-fullheight { // take full viewport height
-    min-height: 100vh;
-  }
   .title {
     height: 3.25rem; // same as nav in main-panel
     padding: .25rem;
@@ -41,4 +40,11 @@ h1 {
       justify-content: flex-start;
     }
   }
+}
+.map-panel {
+  //background-color: aliceblue;
+  background-color: #ff5d5d;
+}
+.footer {
+  background-color: #3d4bff;
 }
