@@ -1,34 +1,39 @@
-<aside class="menu">
-  <p class="menu-label">
-    Lorem ipsum
-  </p>
-  <ul class="menu-list">
-    <li><a>Snow</a></li>
-    <li><a>Rain</a></li>
-    <li><a>Hazards</a></li>
-    <li><a>Overflow</a></li>
-  </ul>
-</aside>
-<section class="section">
-  <nav class="nav">
-    <div class="nav-left">
-      <a class="nav-item">
-        <span class="icon is-large">
-          <i class="fa fa-bars"></i>
-        </span>
-      </a>
-    </div>
-  </nav>
-  <div class="container">
-    <!-- Map -->
-  </div>
-  <footer class="footer">
-    <div class="container">
-      <div class="content has-text-centered">
-        <p>
-          Hello, {{home.name}}
-        </p>
+<div class="columns">
+  <aside class="column is-3 menu">
+    <p class="menu-label">
+      List of Hazards
+    </p>
+    <ul class="menu-list">
+      <li><a>Hazard 1</a></li>
+      <li><a>Hazard 2</a></li>
+      <li><a>Hazard 3</a></li>
+      <li><a>Hazard 4</a></li>
+    </ul>
+  </aside>
+  <div class="column is-9">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item">
+          <span class="icon is-large">
+            <i class="fa fa-bars"></i>
+          </span>
+        </a>
       </div>
-    </div>
-  </footer>
-</section>
+    </nav>
+    <section class="hero is-light">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Hello</h1>
+          <h2 class="subtitle">World</h2>
+        </div>
+      </div>
+    </section>
+    <footer class="footer">
+      <div class="container">
+        <div class="has-text-centered">
+          <p>Hello, <span class="name">{{home.name}}</span></p>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
