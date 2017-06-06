@@ -2,22 +2,28 @@ var webpack = require("webpack");
 var path = require("path");
 var config = {
   context: path.resolve(__dirname, "src"),
-  entry: {
-    // main entry point to application
-    main: "./app/main.js",
-    // entry point for third-party libraries
-    vendor: "./vendor/vendor.js"
-  },
-  output: { // path to separate output bundles
+  entry: "./app/main.js", // main entry point to application
+  output: { // path to output bundle
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.[name].js"
+    filename: "bundle.js"
+  },
+  resolve: {
+    alias: {
+      "openlayers3": path.resolve(__dirname, "src/vendor/ol3/ol-custom.js"),
+      "ol3css": path.resolve(__dirname, "src/vendor/ol3/ol.css")
+    }/*,
+    modules: [
+      path.resolve('./'),
+      path.resolve('./node_modules'),
+    ]
+    */
   },
   watch: true, // rebuild when file changes
   module: {
     rules: [{ // allows to use ES 2015 features
       test: /\.js$/,
-      // don't parse node_modules and vendor libraries
-      exclude: [/node_modules//*, path.resolve(__dirname, "src/vendor")*/],
+      // do not parse node_modules and vendor libraries
+      exclude: [/node_modules/, path.resolve(__dirname, "src/vendor")],
       use: {
         loader: "babel-loader",
         options: {presets: ["es2015"]}
@@ -43,12 +49,6 @@ var config = {
       use: ["raw-loader"]
     }]
   },
-  plugins: [
-    // optimize modules separation with plugin
-    new webpack.optimize.CommonsChunkPlugin({
-      name: "vendor" // specify the common bundle's name
-    })
-  ],
   devServer: { // development server
     contentBase: path.resolve(__dirname, "dist"),
     compress: true, // enable gzip compression
