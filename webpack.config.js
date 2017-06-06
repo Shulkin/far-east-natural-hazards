@@ -17,7 +17,7 @@ var config = {
     rules: [{ // allows to use ES 2015 features
       test: /\.js$/,
       // don't parse node_modules and vendor libraries
-      exclude: [/node_modules/, path.resolve(__dirname, "src/vendor")],
+      exclude: [/node_modules//*, path.resolve(__dirname, "src/vendor")*/],
       use: {
         loader: "babel-loader",
         options: {presets: ["es2015"]}
