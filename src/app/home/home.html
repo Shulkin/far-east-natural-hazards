@@ -2,8 +2,9 @@
   <div class="container">
     <!-- Ancestor tile -->
     <div class="tile is-ancestor">
-      <!-- Legend -->
+      <!-- Aside -->
       <div class="tile is-3 is-parent">
+        <!-- Legend -->
         <aside class="tile is-child">
           <div class="title has-text-centered">
             <p>Легенда</p>
@@ -40,6 +41,7 @@
       </div>
       <!-- Main panel -->
       <div class="tile is-vertical is-parent">
+        <!-- Navigation -->
         <nav class="tile is-child nav is-dark has-shadow">
             <div class="nav-left">
               <a class="nav-item">
@@ -47,10 +49,34 @@
                   <i class="fa fa-bars"></i>
                 </span>
               </a>
+              <div class="nav-item">
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal is-hidden-touch">
+                    <label class="label">Посмотреть</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <div class="control">
+                        <span class="select is-info">
+                          <select>
+                            <option>Опасные явления</option>
+                            <option>Уровень опасности</option>
+                          </select>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="nav-item">
+                <h1 class="subtitle">Опасные природные процессы на Дальнем Востоке</h1>
+              </div>
             </div>
         </nav>
+        <!-- Map -->
         <main class="tile is-child box">
         </main>
+        <!-- Footer -->
         <footer class="tile is-child level">
           <div class="level-item has-text-centered">
             <p>Made by <b>{{home.copyright}}.</b>&nbsp</p>
@@ -62,93 +88,3 @@
     </div>
   </div>
 </section>
-<!--
-<div class="columns">
-  <aside class="column is-2 aside is-fullheight">
-    <div class="title has-text-centered">
-      <p>Легенда</p>
-    </div>
-    <div class="menu">
-      <p class="menu-label">Опасные явления</p>
-      <ul class="menu-list">
-        <li><a>
-          <span class="icon"><i class="fa fa-circle-o"></i></span>
-          <span>Землетрясения</span>
-        </a></li>
-        <li><a>
-          <span class="icon"><i class="fa fa-check-circle-o"></i></span>
-          <span>Грозы</span>
-        </a></li>
-        <li><a>
-          <span class="icon"><i class="fa fa-circle-o"></i></span>
-          <span>Водная эрозия</span>
-        </a></li>
-      </ul>
-      <p class="menu-label">Уровень опасности</p>
-      <ul class="menu-list">
-        <li><a>
-          <span class="icon"><i class="fa fa-check-circle-o"></i></span>
-          <span>Hazards</span>
-        </a></li>
-        <li><a>
-          <span class="icon"><i class="fa fa-check-circle-o"></i></span>
-          <span>Lorem ipsum</span>
-        </a></li>
-      </ul>
-    </div>
-  </aside>
-  <div class="column is-10 main-panel">
-    <nav class="nav is-dark has-shadow">
-      <div class="nav-left">
-        <a class="nav-item">
-          <span class="icon is-large">
-            <i class="fa fa-bars"></i>
-          </span>
-        </a>
-        <div class="nav-item">
-          <div class="field is-horizontal">
-            <div class="field-label is-normal is-hidden-touch">
-              <label class="label">Посмотреть</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <span class="select is-info">
-                    <select>
-                      <option>Опасные явления</option>
-                      <option>Уровень опасности</option>
-                    </select>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="nav-item">
-          <h1 class="subtitle">Опасные природные процессы на Дальнем Востоке</h1>
-        </div>
-      </div>
-    </nav>
-    <section class="section map-panel">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
-    </section>
-    <footer class="footer">
-      <div class="content has-text-centered">
-        <p>Copyright by <b>{{home.name}}</b></p>
-        <p>Source code is licensed <a href="https://opensource.org/licenses/GPL-3.0">GPL-3.0</a></p>
-        <p>
-          <a class="icon" href="https://github.com/Shulkin/far-east-natural-hazards">
-            <i class="fa fa-github"></i>
-          </a>
-        </p>
-      </div>
-    </footer>
-  </div>
-</div>
--->

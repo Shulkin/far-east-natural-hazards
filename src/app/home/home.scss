@@ -10,10 +10,16 @@ aside {
       color: whitesmoke;
       letter-spacing: 2px;
       text-transform: uppercase;
+      // clip if legend title is too long
+      /*
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      */
     }
   }
   .menu {
-    padding: .5rem;
+    padding: 0 .5rem .5rem .75rem;
     p {color: lightgray;}
     a {color: darkgray;}
     a:hover {color: #00b69b;}
@@ -25,61 +31,10 @@ aside {
 }
 nav {
   max-height: 4rem;
+  .nav-left {overflow: hidden;}
 }
 footer {
   max-height: 2rem;
   padding-top: .25rem;
   background-color: oldlace;
 }
-/*
-.name {color: red;}
-// main title
-h1 {
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-// prevent title overflow in navbar
-.nav-left {overflow: hidden;}
-// close gap to aside
-.main-panel {padding-left: 0;}
-// take full viewport height
-.is-fullheight {min-height: 100vh;}
-.aside {
-  padding-right: 0; // close gap to main-panel
-  background-color: #232b2d;
-  .title {
-    height: 3.25rem; // same as nav in main-panel
-    padding: .25rem;
-    background-color: #2eb398;
-    box-shadow: 0 2px 3px rgba(46, 179, 152, 0.1);
-    p {
-      padding: .25rem;
-      font-weight: 400;
-      color: whitesmoke;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      // clip if legend title is too long
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-  .menu {
-    padding: .5rem;
-    p {color: lightgray;}
-    a {color: darkgray;}
-    a:hover {color: #00b69b;}
-    .icon { // align icons with text
-      vertical-align: text-top;
-      justify-content: flex-start;
-    }
-  }
-}
-.map-panel {
-  //background-color: aliceblue;
-  background-color: #ff5d5d;
-}
-.footer {
-  background-color: #3d4bff;
-}
-*/
