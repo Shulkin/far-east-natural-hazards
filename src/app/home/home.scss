@@ -33,6 +33,12 @@ nav {
   max-height: 4rem;
   .nav-left {overflow: hidden;}
 }
+main {
+  #map {
+    width: 640px;
+    height: 480px;
+  }
+}
 footer {
   max-height: 2rem;
   padding-top: .25rem;
