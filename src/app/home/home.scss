@@ -1,3 +1,37 @@
+aside {
+  background-color: #232b2d;
+  .title {
+    min-height: 4rem;
+    padding-top: 1rem;
+    background-color: #2eb398;
+    box-shadow: 0 2px 3px rgba(46, 179, 152, 0.1);
+    p {
+      font-weight: 400;
+      color: whitesmoke;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+  }
+  .menu {
+    padding: .5rem;
+    p {color: lightgray;}
+    a {color: darkgray;}
+    a:hover {color: #00b69b;}
+    .icon { // align icons with text
+      vertical-align: text-top;
+      justify-content: flex-start;
+    }
+  }
+}
+nav {
+  max-height: 4rem;
+}
+footer {
+  max-height: 2rem;
+  padding-top: .25rem;
+  background-color: oldlace;
+}
+/*
 .name {color: red;}
 // main title
 h1 {
@@ -48,3 +82,4 @@ h1 {
 .footer {
   background-color: #3d4bff;
 }
+*/
