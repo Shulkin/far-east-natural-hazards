@@ -9,32 +9,36 @@
             <p>Легенда</p>
           </div>
           <div class="menu">
-            <p class="menu-label">Опасные явления</p>
-            <ul class="menu-list">
-              <li><a>
-                <span class="icon"><i class="fa fa-circle-o"></i></span>
-                <span>Землетрясения</span>
-              </a></li>
-              <li><a>
-                <span class="icon"><i class="fa fa-check-circle-o"></i></span>
-                <span>Грозы</span>
-              </a></li>
-              <li><a>
-                <span class="icon"><i class="fa fa-circle-o"></i></span>
-                <span>Водная эрозия</span>
-              </a></li>
-            </ul>
-            <p class="menu-label">Уровень опасности</p>
-            <ul class="menu-list">
-              <li><a>
-                <span class="icon"><i class="fa fa-check-circle-o"></i></span>
-                <span>Hazards</span>
-              </a></li>
-              <li><a>
-                <span class="icon"><i class="fa fa-check-circle-o"></i></span>
-                <span>Lorem ipsum</span>
-              </a></li>
-            </ul>
+            <div ng-show="home.displayMapType === home.HAZARDS_TYPE">
+              <p class="menu-label">Опасные явления</p>
+              <ul class="menu-list">
+                <li><a>
+                  <span class="icon"><i class="fa fa-circle-o"></i></span>
+                  <span>Землетрясения</span>
+                </a></li>
+                <li><a>
+                  <span class="icon"><i class="fa fa-check-circle-o"></i></span>
+                  <span>Грозы</span>
+                </a></li>
+                <li><a>
+                  <span class="icon"><i class="fa fa-circle-o"></i></span>
+                  <span>Водная эрозия</span>
+                </a></li>
+              </ul>
+            </div>
+            <div ng-show="home.displayMapType === home.DANGER_LEVEL">
+              <p class="menu-label">Уровень опасности</p>
+              <ul class="menu-list">
+                <li><a>
+                  <span class="icon"><i class="fa fa-check-circle-o"></i></span>
+                  <span>Hazards</span>
+                </a></li>
+                <li><a>
+                  <span class="icon"><i class="fa fa-check-circle-o"></i></span>
+                  <span>Lorem ipsum</span>
+                </a></li>
+              </ul>
+            </div>
           </div>
         </aside>
       </div>
@@ -57,9 +61,9 @@
                     <div class="field">
                       <div class="control">
                         <span class="select is-info">
-                          <select>
-                            <option>Опасные явления</option>
-                            <option>Уровень опасности</option>
+                          <select ng-model="home.displayMapType">
+                            <option value="{{home.HAZARDS_TYPE}}">Опасные явления</option>
+                            <option value="{{home.DANGER_LEVEL}}">Уровень опасности</option>
                           </select>
                         </span>
                       </div>

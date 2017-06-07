@@ -13,6 +13,11 @@ class HomeController {
     // show legend by default
     this.showAside = true;
     this.updateMapSize();
+    // some constants
+    this.HAZARDS_TYPE = "hazards";
+    this.DANGER_LEVEL = "danger";
+    // show danger level by default
+    this.displayMapType = this.DANGER_LEVEL;
   }
   createMap() {
     this.map = new ol.Map({
