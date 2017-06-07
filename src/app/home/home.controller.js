@@ -22,13 +22,15 @@ class HomeController {
   createMap() {
     this.map = new ol.Map({
       target: "map",
-      layers: [
-        new ol.layer.Tile({
-          source: new ol.source.OSM()
+      layers: [new ol.layer.Tile({
+        source: new ol.source.TileWMS({
+          url: "http://gis.dvo.ru:8080/geoserver/wms",
+          params: {"LAYERS": "Danger_Process_RE_FE:Danger_Process_FE_RF_MAP", "TILED": true},
+          serverType: "geoserver"
         })
-      ],
+      })],
       view: new ol.View({
-        center: [0, 0],
+        center: [15826009, 9377938],
         zoom: 4
       })
     });
