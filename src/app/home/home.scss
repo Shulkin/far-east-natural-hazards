@@ -26,6 +26,10 @@ aside {
 nav {
   max-height: 4rem;
   .nav-left {overflow: hidden;}
+  h1 {
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
 }
 main {
   min-height: 480px;
@@ -37,4 +41,8 @@ main {
 footer {
   padding: .25rem;
   background-color: oldlace;
+}
+nav, footer {
+  background-color: whitesmoke !important;
+  border: 1px solid darken(whitesmoke, 5%) !important;
 }
