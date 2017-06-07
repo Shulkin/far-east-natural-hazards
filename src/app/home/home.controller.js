@@ -1,36 +1,47 @@
-import ol3 from "openlayers3";
+import ol from "openlayers3";
 import "ol3css"; // openlayers style
-import $ from "jquery";
-export default class HomeController {
-  constructor() {
+class HomeController {
+  constructor($timeout) {
+    // remember injected objects
+    this.$timeout = $timeout;
+    // copyright in footer
     this.copyright = "Evgeny Shulkin";
     this.license = "https://opensource.org/licenses/GPL-3.0";
     this.github = "https://github.com/Shulkin/far-east-natural-hazards";
-    var map = new ol3.ol.Map({
+    // create openlayers3 map
+    this.createMap();
+    // show legend by default
+    this.showAside = true;
+    this.updateMapSize();
+  }
+  createMap() {
+    this.map = new ol.Map({
       target: "map",
       layers: [
-        new ol3.ol.layer.Tile({
-          source: new ol3.ol.source.OSM()
+        new ol.layer.Tile({
+          source: new ol.source.OSM()
         })
       ],
-      view: new ol3.ol.View({
+      view: new ol.View({
         center: [0, 0],
         zoom: 4
       })
     });
-    $(".js-show-aside").on("click", function() {
-      $(".aside-toggle").toggleClass("is-hidden");
-      $(".aside-panel").removeClass("is-hidden");
-      $(".main-panel").removeClass("is-12");
-      $(".main-panel").addClass("is-9");
-      map.updateSize();
-    });
-    $(".js-hide-aside").on("click", function() {
-      $(".aside-toggle").toggleClass("is-hidden");
-      $(".aside-panel").addClass("is-hidden");
-      $(".main-panel").removeClass("is-9");
-      $(".main-panel").addClass("is-12");
-      map.updateSize();
-    });
+  }
+  updateMapSize() {
+    // run after angular digest cycle
+    var that = this;
+    this.$timeout(function() {
+      that.map.updateSize();
+    }, 0, false); // false to prevent another digest cycle
+  }
+  // show/hide sidebar panel
+  toggleAside() {
+    // manipulate ng-class in template
+    this.showAside = !this.showAside;
+    this.updateMapSize();
   }
 }
+// inject controller with additional functions
+HomeController.$inject = ["$timeout"];
+export default HomeController;

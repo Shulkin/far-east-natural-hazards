@@ -35,8 +35,7 @@ main {
   min-height: 480px;
   #map {
     width: 100%;
-    // === WORKAROUND ===
-    height: 600px;
+    height: 600px; // <=== WORKAROUND
   }
 }
 footer {padding: .25rem;}

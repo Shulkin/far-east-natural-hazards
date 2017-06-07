@@ -3,7 +3,7 @@
     <!-- Ancestor tile -->
     <div class="tile is-ancestor">
       <!-- Aside -->
-      <div class="tile is-3 is-parent aside-panel">
+      <div class="tile is-parent" ng-class="home.showAside ? 'is-3' : 'is-hidden'">
         <aside class="tile is-child">
           <div class="title has-text-centered">
             <p>Легенда</p>
@@ -39,17 +39,14 @@
         </aside>
       </div>
       <!-- Main panel -->
-      <div class="tile is-9 is-vertical is-parent main-panel">
+      <div class="tile is-vertical is-parent" ng-class="home.showAside ? 'is-9' : 'is-12'">
         <!-- Navigation -->
         <nav class="tile is-child nav is-dark has-shadow">
             <div class="nav-left">
-              <a class="nav-item aside-toggle js-show-aside is-hidden">
-                <!-- <span class="icon is-large"><i class="fa fa-bars"></i></span> -->
-                <span class="icon is-large"><i class="fa fa-arrow-left"></i></span>
-              </a>
-              <a class="nav-item aside-toggle js-hide-aside">
-                <!-- <span class="icon is-large"><i class="fa fa-bars"></i></span> -->
-                <span class="icon is-large"><i class="fa fa-arrow-right"></i></span>
+              <a class="nav-item" ng-click="home.toggleAside()">
+                <span class="icon is-large">
+                  <i class="fa fa-bars"></i>
+                </span>
               </a>
               <div class="nav-item">
                 <div class="field is-horizontal">
