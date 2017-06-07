@@ -1,7 +1,3 @@
-/*
-import ol3 from "../../vendor/ol3/ol-custom.js";
-import "../../vendor/ol3/ol.css";
-*/
 import ol3 from "openlayers3";
 import "ol3css"; // openlayers style
 export default class HomeController {
