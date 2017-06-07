@@ -9,7 +9,7 @@ var config = {
   },
   resolve: {
     alias: {
-      "openlayers3": path.resolve(__dirname, "src/vendor/ol3/ol-custom.js"),
+      "openlayers3": path.resolve(__dirname, "src/vendor/ol3/ol.js"),
       "ol3css": path.resolve(__dirname, "src/vendor/ol3/ol.css")
     }
   },
