@@ -30,8 +30,13 @@ class HomeController {
         })
       })],
       view: new ol.View({
+        extent: [ // map borders
+          10620953.1218926391, 6736274.3024643082,
+          21031064.878107363, 12019601.697535692
+        ],
+        // default center of viewport
         center: [15826009, 9377938],
-        zoom: 4
+        zoom: 4 // zoom level
       })
     });
   }
