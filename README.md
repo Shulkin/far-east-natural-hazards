@@ -11,10 +11,6 @@ $ cd far-east-natural-hazards
 $ npm install
 ```
 
-## Try demo
-
-[far-east-natural-hazards](https://shulkin.github.io/far-east-natural-hazards/dist)
-
 ## Usage
 
 Start development webpack server
