@@ -19,24 +19,28 @@ class HomeController {
     // show danger level by default
     this.displayMapType = this.DANGER_LEVEL;
   }
+  transform(extent) {
+    // transform from WGS84 to Web Mercator
+    return ol.proj.transformExtent(extent, "EPSG:4326", "EPSG:3857");
+  }
   createMap() {
+    var bounds = this.transform([90, 38, 204, 78]);
+    console.log(bounds);
+    var overlay = new ol.layer.Tile({
+      extent: bounds,
+      source: new ol.source.TileWMS({
+        url: "http://gis.dvo.ru:8080/geoserver/wms",
+        params: {"LAYERS": "Danger_Process_RE_FE:Danger_Process_FE_RF_MAP", "TILED": true},
+        serverType: "geoserver"
+      })
+    });
     this.map = new ol.Map({
       target: "map",
-      layers: [new ol.layer.Tile({
-        source: new ol.source.TileWMS({
-          url: "http://gis.dvo.ru:8080/geoserver/wms",
-          params: {"LAYERS": "Danger_Process_RE_FE:Danger_Process_FE_RF_MAP", "TILED": true},
-          serverType: "geoserver"
-        })
-      })],
+      layers: [overlay],
       view: new ol.View({
-        extent: [ // map borders
-          10620953.1218926391, 6736274.3024643082,
-          21031064.878107363, 12019601.697535692
-        ],
-        // default center of viewport
-        center: [15826009, 9377938],
-        zoom: 4 // zoom level
+        center: ol.proj.fromLonLat([147, 62]),
+        extent: overlay.getExtent(),
+        zoom: 4
       })
     });
   }
