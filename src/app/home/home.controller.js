@@ -20,31 +20,73 @@ class HomeController {
     this.displayMapType = this.DANGER_LEVEL;
   }
   transform(extent) {
-    // transform from WGS84 to Web Mercator
+    // transform extent from WGS84 to Web Mercator
     return ol.proj.transformExtent(extent, "EPSG:4326", "EPSG:3857");
   }
   createMap() {
     // [minlon, minlat, maxlon, maxlat]
     var bounds = this.transform([90, 38, 204, 78]);
-    var overlay = new ol.layer.Tile({
+    var wmsSource = new ol.source.TileWMS({
+      url: "http://gis.dvo.ru:8080/geoserver/wms",
+      params: {"LAYERS": "Danger_Process_RE_FE:Danger_Process_FE_RF_MAP", "TILED": true},
+      serverType: "geoserver"
+    });
+    var wmsLayer = new ol.layer.Tile({
       extent: bounds, // clip layer by this extent
-      source: new ol.source.TileWMS({
-        url: "http://gis.dvo.ru:8080/geoserver/wms",
-        params: {"LAYERS": "Danger_Process_RE_FE:Danger_Process_FE_RF_MAP", "TILED": true},
-        serverType: "geoserver"
+      source: wmsSource
+    });
+    var vectorSource = new ol.source.Vector();
+    var vectorLayer = new ol.layer.Vector({
+      source: vectorSource,
+      style: new ol.style.Style({
+        fill: new ol.style.Fill({
+          color: "rgba(255, 255, 255, 0.5)"
+        }),
+        stroke: new ol.style.Stroke({
+          color: "#c04fe2",
+          width: 2
+        }),
       })
+    });
+    var view = new ol.View({
+      center: ol.proj.fromLonLat([147, 63]),
+      extent: wmsLayer.getExtent(),
+      zoom: 4, // default zoom
+      // restrict zoom levels
+      minZoom: 4, maxZoom: 6
+      // default projection is Spherical Mercator (EPSG:3857)
     });
     this.map = new ol.Map({
       target: "map",
-      layers: [overlay],
-      view: new ol.View({
-        center: ol.proj.fromLonLat([147, 63]),
-        extent: overlay.getExtent(),
-        zoom: 4, // default zoom
-        // restrict zoom levels
-        minZoom: 4, maxZoom: 6
-        // default projection is Spherical Mercator (EPSG:3857)
-      })
+      layers: [wmsLayer, vectorLayer],
+      view: view
+    });
+    this.map.on("singleclick", function(evt) {
+      var viewResolution = /** @type {number} */ (view.getResolution());
+      var url = wmsSource.getGetFeatureInfoUrl(
+        evt.coordinate, viewResolution, "EPSG:3857",
+        {
+          "INFO_FORMAT": "application/json",
+          "QUERY_LAYERS": "Danger_Process_RE_FE:Dang_Process"
+        }
+      );
+      if (url) {
+        fetch(url, {method: "GET"}).then(function(response) {
+          return response.json();
+        }).then(function(json) {
+          // transform feature geometry from WGS84 to Web Mercator
+          var features = new ol.format.GeoJSON({
+            dataProjection: "EPSG:4326",
+            featureProjection: "EPSG:3857"
+          }).readFeatures(json);
+          vectorSource.clear(); // clear previous
+          // highlight selected feature
+          vectorSource.addFeatures(features);
+          // test data
+          console.log(features[0].get("Rank")); // danger level
+          console.log(features[0].get("Combi")); // list of hazards
+        });
+      }
     });
   }
   updateMapSize() {
