@@ -24,10 +24,10 @@ class HomeController {
     return ol.proj.transformExtent(extent, "EPSG:4326", "EPSG:3857");
   }
   createMap() {
+    // [minlon, minlat, maxlon, maxlat]
     var bounds = this.transform([90, 38, 204, 78]);
-    console.log(bounds);
     var overlay = new ol.layer.Tile({
-      extent: bounds,
+      extent: bounds, // clip layer by this extent
       source: new ol.source.TileWMS({
         url: "http://gis.dvo.ru:8080/geoserver/wms",
         params: {"LAYERS": "Danger_Process_RE_FE:Danger_Process_FE_RF_MAP", "TILED": true},
@@ -38,9 +38,12 @@ class HomeController {
       target: "map",
       layers: [overlay],
       view: new ol.View({
-        center: ol.proj.fromLonLat([147, 62]),
+        center: ol.proj.fromLonLat([147, 63]),
         extent: overlay.getExtent(),
-        zoom: 4
+        zoom: 4, // default zoom
+        // restrict zoom levels
+        minZoom: 4, maxZoom: 6
+        // default projection is Spherical Mercator (EPSG:3857)
       })
     });
   }
