@@ -1,7 +1,7 @@
 import angular from "angular";
 // repeated dependencies will be ignored
 import uirouter from "angular-ui-router";
-// import styles for this state
+// import style for this state
 import "./home.scss";
 // import classes
 import routing from "./home.routes";

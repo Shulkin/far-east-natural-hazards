@@ -1,5 +1,7 @@
 import ol from "openlayers3";
 import "ol3css"; // openlayers style
+// import style for map popup
+import "./ol-popup.scss";
 class HomeController {
   constructor($timeout) {
     // remember injected objects
@@ -48,6 +50,25 @@ class HomeController {
         }),
       })
     });
+    // elements that make up the popup
+    var container = document.getElementById("popup");
+    var content = document.getElementById("popup-content");
+    var closer = document.getElementById("popup-closer");
+    // create an overlay to anchor the popup to the map
+    var overlay = new ol.Overlay(/** @type {olx.OverlayOptions} */ ({
+      element: container,
+      autoPan: true,
+      autoPanAnimation: {
+        duration: 250
+      }
+    }));
+    // add a click handler to hide the popup
+    closer.onclick = function() {
+      overlay.setPosition(undefined);
+      closer.blur();
+      // return boolean, don't follow the href
+      return false;
+    };
     var view = new ol.View({
       center: ol.proj.fromLonLat([147, 63]),
       extent: wmsLayer.getExtent(),
@@ -59,12 +80,14 @@ class HomeController {
     this.map = new ol.Map({
       target: "map",
       layers: [wmsLayer, vectorLayer],
+      overlays: [overlay],
       view: view
     });
     this.map.on("singleclick", function(evt) {
+      var coordinate = evt.coordinate;
       var viewResolution = /** @type {number} */ (view.getResolution());
       var url = wmsSource.getGetFeatureInfoUrl(
-        evt.coordinate, viewResolution, "EPSG:3857",
+        coordinate, viewResolution, "EPSG:3857",
         {
           "INFO_FORMAT": "application/json",
           "QUERY_LAYERS": "Danger_Process_RE_FE:Dang_Process"
@@ -80,11 +103,18 @@ class HomeController {
             featureProjection: "EPSG:3857"
           }).readFeatures(json);
           vectorSource.clear(); // clear previous
-          // highlight selected feature
-          vectorSource.addFeatures(features);
-          // test data
-          console.log(features[0].get("Rank")); // danger level
-          console.log(features[0].get("Combi")); // list of hazards
+          if (features.length > 0) {
+            // highlight selected feature
+            vectorSource.addFeatures(features);
+            // show popup
+            var rank = features[0].get("Rank"); // danger level
+            var hazards = features[0].get("Combi"); // list of hazards
+            content.innerHTML = rank + " / " + hazards;
+            overlay.setPosition(coordinate);
+            // test data
+            // console.log(features[0].get("Rank")); // danger level
+            // console.log(features[0].get("Combi")); // list of hazards
+          }
         });
       }
     });
