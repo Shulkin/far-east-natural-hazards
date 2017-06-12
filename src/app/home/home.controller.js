@@ -62,10 +62,16 @@ class HomeController {
         duration: 250
       }
     }));
-    // add a click handler to hide the popup
-    closer.onclick = function() {
+    function hidePopup() {
+      // clear selected feature
+      vectorSource.clear();
+      // hide popup
       overlay.setPosition(undefined);
       closer.blur();
+    }
+    // add a click handler to hide the popup
+    closer.onclick = function() {
+      hidePopup();
       // return boolean, don't follow the href
       return false;
     };
@@ -102,7 +108,7 @@ class HomeController {
             dataProjection: "EPSG:4326",
             featureProjection: "EPSG:3857"
           }).readFeatures(json);
-          vectorSource.clear(); // clear previous
+          hidePopup(); // clear overlay and hide previous popup
           if (features.length > 0) {
             // highlight selected feature
             vectorSource.addFeatures(features);
@@ -111,9 +117,6 @@ class HomeController {
             var hazards = features[0].get("Combi"); // list of hazards
             content.innerHTML = rank + " / " + hazards;
             overlay.setPosition(coordinate);
-            // test data
-            // console.log(features[0].get("Rank")); // danger level
-            // console.log(features[0].get("Combi")); // list of hazards
           }
         });
       }
