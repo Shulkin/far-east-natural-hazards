@@ -3,15 +3,19 @@ import "ol3css"; // openlayers style
 // import style for map popup
 import "./ol-popup.scss";
 class HomeController {
-  constructor($timeout) {
+  constructor($timeout, $scope) {
     // remember injected objects
     this.$timeout = $timeout;
+    this.$scope = $scope;
     // copyright in footer
     this.copyright = "Evgeny Shulkin";
     this.license = "https://opensource.org/licenses/GPL-3.0";
     this.github = "https://github.com/Shulkin/far-east-natural-hazards";
-    // create openlayers3 map
-    this.createMap();
+    // wrap in $timeout to prevent exception
+    this.$timeout(function() {
+      // create openlayers3 map
+      this.createMap();
+    }.bind(this), 0, false);
     // show legend by default
     this.showAside = true;
     this.updateMapSize();
@@ -20,6 +24,8 @@ class HomeController {
     this.DANGER_LEVEL = "danger";
     // show danger level by default
     this.displayMapType = this.DANGER_LEVEL;
+    // default object for selected feature
+    this.selectedFeature = {rank: null, hazards: []};
   }
   transform(extent) {
     // transform extent from WGS84 to Web Mercator
@@ -52,7 +58,6 @@ class HomeController {
     });
     // elements that make up the popup
     var container = document.getElementById("popup");
-    var content = document.getElementById("popup-content");
     var closer = document.getElementById("popup-closer");
     // create an overlay to anchor the popup to the map
     var overlay = new ol.Overlay(/** @type {olx.OverlayOptions} */ ({
@@ -63,17 +68,16 @@ class HomeController {
       }
     }));
     function hidePopup() {
-      // clear selected feature
+      // delete geometry on map
       vectorSource.clear();
-      // hide popup
+      // hide modal popup window
       overlay.setPosition(undefined);
       closer.blur();
     }
     // add a click handler to hide the popup
     closer.onclick = function() {
-      hidePopup();
-      // return boolean, don't follow the href
-      return false;
+      hidePopup(); // clear overlay and hide popup
+      return false; // don't follow the href
     };
     var view = new ol.View({
       center: ol.proj.fromLonLat([147, 63]),
@@ -89,6 +93,7 @@ class HomeController {
       overlays: [overlay],
       view: view
     });
+    var self = this; // use self to avoid nested binds
     this.map.on("singleclick", function(evt) {
       var coordinate = evt.coordinate;
       var viewResolution = /** @type {number} */ (view.getResolution());
@@ -112,11 +117,13 @@ class HomeController {
           if (features.length > 0) {
             // highlight selected feature
             vectorSource.addFeatures(features);
-            // show popup
-            var rank = features[0].get("Rank"); // danger level
-            var hazards = features[0].get("Combi"); // list of hazards
-            content.innerHTML = rank + " / " + hazards;
-            overlay.setPosition(coordinate);
+            // fill info about selected feature in popup
+            self.selectedFeature = {
+              rank: features[0].get("Rank"), // danger level
+              hazards: features[0].get("Combi").split(",") // list of hazards
+            };
+            self.$scope.$apply(); // tell angular to apply changes
+            overlay.setPosition(coordinate); // show popup
           }
         });
       }
@@ -124,10 +131,10 @@ class HomeController {
   }
   updateMapSize() {
     // run after angular digest cycle
-    var that = this;
     this.$timeout(function() {
-      that.map.updateSize();
-    }, 0, false); // false to prevent another digest cycle
+      this.map.updateSize();
+      // false to prevent another digest cycle
+    }.bind(this), 0, false);
   }
   // show/hide sidebar panel
   toggleAside() {
@@ -137,5 +144,5 @@ class HomeController {
   }
 }
 // inject controller with additional functions
-HomeController.$inject = ["$timeout"];
+HomeController.$inject = ["$timeout", "$scope"];
 export default HomeController;
