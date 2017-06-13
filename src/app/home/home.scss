@@ -37,6 +37,16 @@ main {
     width: 100%;
     height: 540px; // <=== WORKAROUND
   }
+  #popup-content {
+    .danger-level {
+      margin-bottom: .5rem;
+      span {text-transform: uppercase;}
+    }
+    .hazards-list {
+      span {text-transform: uppercase;}
+      ul li {margin-top: .25rem;}
+    }
+  }
 }
 footer {padding: .25rem;}
 nav, footer {

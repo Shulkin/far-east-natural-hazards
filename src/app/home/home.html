@@ -83,16 +83,18 @@
           <div id="popup" class="ol-popup">
             <a href="#" id="popup-closer" class="ol-popup-closer"></a>
             <div id="popup-content">
-              <div>
+              <div class="danger-level">
                 <span>Уровень опасности:&nbsp</span>
                 <b>{{home.selectedFeature.rank}}</b>
               </div>
-              <span>Неблагоприятные явления:</span>
-              <ul>
-                <li ng-repeat="hazard in home.selectedFeature.hazards">
-                  <span>{{hazard}}</span>
-                </li>
-              </ul>
+              <div class="hazards-list">
+                <span>Неблагоприятные явления:</span>
+                <ul>
+                  <li ng-repeat="id in home.selectedFeature.hazards">
+                    {{home.HAZARDS_LIST[id]}}
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </main>
