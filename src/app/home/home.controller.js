@@ -1,3 +1,4 @@
+import $ from "jquery";
 import ol from "openlayers3";
 import "ol3css"; // openlayers style
 // import style for map popup
@@ -83,8 +84,8 @@ class HomeController {
       })
     });
     // elements that make up the popup
-    var container = document.getElementById("popup");
-    var closer = document.getElementById("popup-closer");
+    var container = $("#popup")[0];
+    var closer = $("#popup-closer")[0];
     // create an overlay to anchor the popup to the map
     var overlay = new ol.Overlay(/** @type {olx.OverlayOptions} */ ({
       element: container,
@@ -141,15 +142,17 @@ class HomeController {
           }).readFeatures(json);
           hidePopup(); // clear overlay and hide previous popup
           if (features.length > 0) {
-            // highlight selected feature
-            vectorSource.addFeatures(features);
-            // fill info about selected feature in popup
-            self.selectedFeature = {
-              rank: features[0].get("Rank"), // danger level
-              hazards: features[0].get("Combi").split(",") // list of hazards
-            };
-            self.$scope.$apply(); // tell angular to apply changes
-            overlay.setPosition(coordinate); // show popup
+            // tell angular to apply changes
+            self.$scope.$apply(function() {
+              // highlight selected feature
+              vectorSource.addFeatures(features);
+              // fill info about selected feature in popup
+              self.selectedFeature = {
+                rank: features[0].get("Rank"), // danger level
+                hazards: features[0].get("Combi").split(",") // list of hazards
+              };
+              overlay.setPosition(coordinate); // show popup
+            });
           }
         });
       }
