@@ -14,24 +14,17 @@
               <ul class="menu-list">
                 <li ng-repeat="hazard in home.HAZARDS_LIST">
                   <a ng-click="home.toggleHazardType($index)">
-                    <span class="icon"><i class="fa fa-circle-o"></i></span>
-                    <span>{{hazard}}</span>
+                    <span class="icon">
+                      <i ng-class="hazard.selected ? 'fa fa-check-circle-o' : 'fa fa-circle-o'"></i>
+                    </span>
+                    <span>{{hazard.name}}</span>
                   </a>
                 </li>
               </ul>
             </div>
             <div ng-show="home.displayMapType === home.DANGER_LEVEL">
               <p class="menu-label">Уровень опасности</p>
-              <ul class="menu-list">
-                <li><a>
-                  <span class="icon"><i class="fa fa-check-circle-o"></i></span>
-                  <span>Hazards</span>
-                </a></li>
-                <li><a>
-                  <span class="icon"><i class="fa fa-check-circle-o"></i></span>
-                  <span>Lorem ipsum</span>
-                </a></li>
-              </ul>
+              <p class="menu-label">Здесь будет цветная легенда...</p>
             </div>
           </div>
         </aside>
@@ -85,7 +78,8 @@
                 <span>Неблагоприятные явления:</span>
                 <ul>
                   <li ng-repeat="id in home.selectedFeature.hazards">
-                    {{home.HAZARDS_LIST[id]}}
+                    <!-- -1 because Combi in feature is from 1..n -->
+                    {{home.HAZARDS_LIST[id - 1].name}}
                   </li>
                 </ul>
               </div>

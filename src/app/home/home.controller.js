@@ -24,30 +24,30 @@ class HomeController {
     this.HAZARDS_TYPE = "hazards";
     this.DANGER_LEVEL = "danger";
     this.HAZARDS_LIST = [
-      "Землетрясения",
-      "Лавины",
-      "Сели",
-      "Криогенные процессы",
-      "Экстремально низкие температуры",
-      "Снегоотложения",
-      "Наводнения",
-      "Наледи",
-      "Грозы",
-      "Пожары",
-      "Перепады температур",
-      "Метели",
-      "Заторы",
-      "Снеговые нагрузки",
-      "Туманы",
-      "Водная эрозия",
-      "Карст",
-      "Ледники",
-      "Маловодье",
-      "Сильный ветер",
-      "Сильные дожди",
-      "Экстремально высокие температуры",
-      "Оползни",
-      "Гололедно-изморозевые явления"
+      {name: "Землетрясения", selected: false},
+      {name: "Лавины", selected: false},
+      {name: "Сели", selected: false},
+      {name: "Криогенные процессы", selected: false},
+      {name: "Экстремально низкие температуры", selected: false},
+      {name: "Снегоотложения", selected: false},
+      {name: "Наводнения", selected: false},
+      {name: "Наледи", selected: false},
+      {name: "Грозы", selected: false},
+      {name: "Пожары", selected: false},
+      {name: "Перепады температур", selected: false},
+      {name: "Метели", selected: false},
+      {name: "Заторы", selected: false},
+      {name: "Снеговые нагрузки", selected: false},
+      {name: "Туманы", selected: false},
+      {name: "Водная эрозия", selected: false},
+      {name: "Карст", selected: false},
+      {name: "Ледники", selected: false},
+      {name: "Маловодье", selected: false},
+      {name: "Сильный ветер", selected: false},
+      {name: "Сильные дожди", selected: false},
+      {name: "Экстремально высокие температуры", selected: false},
+      {name: "Оползни", selected: false},
+      {name: "Гололедно-изморозевые явления", selected: false}
     ];
     // show danger level by default
     this.displayMapType = this.DANGER_LEVEL;
@@ -70,6 +70,48 @@ class HomeController {
       extent: bounds, // clip layer by this extent
       source: wmsSource
     });
+    // ===
+    var hazardSource = new ol.source.Vector({
+      format: new ol.format.GeoJSON(),
+      url: function(extent) {
+        // request vector features from geoserver
+        return "http://gis.dvo.ru:8080/geoserver/Danger_Process_RE_FE/ows?" +
+          // use WFS to transfer geometry in GeoJSON format
+         "service=WFS&" + "version=1.0.0&" + "request=GetFeature&" +
+         "typeName=Danger_Process_RE_FE:Dang_Process&" + "maxFeatures=5000&" +
+         // requested coordinates in EPSG:3857, Web Mercator
+         "srsname=EPSG:3857&" + "outputFormat=application/json&" +
+         // filter by extent
+         "bbox=" + extent.join(",") + ",EPSG:3857";
+      },
+      strategy: ol.loadingstrategy.bbox
+    });
+    var hazardLayer = new ol.layer.Vector({
+      source: hazardSource,
+      style: new ol.style.Style({
+        fill: new ol.style.Fill({
+          color: "rgba(255, 255, 255, 0)"
+        }),
+        stroke: new ol.style.Stroke({
+          color: "rgba(255, 255, 255, 0)",
+          width: 2
+        })
+      })
+    });
+    var hazardHighlightSource = new ol.source.Vector();
+    var hazardHighlightLayer = new ol.layer.Vector({
+      source: hazardHighlightSource,
+      style: new ol.style.Style({
+        fill: new ol.style.Fill({
+          color: "rgba(255, 255, 255, 0.5)"
+        }),
+        stroke: new ol.style.Stroke({
+          color: "#c04fe2",
+          width: 2
+        })
+      })
+    })
+    // ===
     var vectorSource = new ol.source.Vector();
     var vectorLayer = new ol.layer.Vector({
       source: vectorSource,
@@ -80,7 +122,7 @@ class HomeController {
         stroke: new ol.style.Stroke({
           color: "#c04fe2",
           width: 2
-        }),
+        })
       })
     });
     // elements that make up the popup
@@ -101,6 +143,7 @@ class HomeController {
       overlay.setPosition(undefined);
       closer.blur();
     }
+    this.hidePopup = hidePopup; // export function to scope
     // add a click handler to hide the popup
     closer.onclick = function() {
       hidePopup(); // clear overlay and hide popup
@@ -116,7 +159,7 @@ class HomeController {
     });
     this.map = new ol.Map({
       target: "map",
-      layers: [wmsLayer, vectorLayer],
+      layers: [wmsLayer, hazardLayer, hazardHighlightLayer, vectorLayer],
       overlays: [overlay],
       view: view
     });
@@ -140,7 +183,7 @@ class HomeController {
             dataProjection: "EPSG:4326",
             featureProjection: "EPSG:3857"
           }).readFeatures(json);
-          hidePopup(); // clear overlay and hide previous popup
+          self.hidePopup(); // clear overlay and hide previous popup
           if (features.length > 0) {
             // tell angular to apply changes
             self.$scope.$apply(function() {
@@ -157,6 +200,37 @@ class HomeController {
         });
       }
     });
+    // TEST FUNCTIONS!
+    function showVectorHazardsOverlay() {
+      hazardLayer.setVisible(true);
+      hazardHighlightLayer.setVisible(true);
+    }
+    function hideVectorHazardsOverlay() {
+      hazardLayer.setVisible(false);
+      hazardHighlightLayer.setVisible(false);
+    }
+    function selectOnHazardLayer(combiArray) {
+      hazardHighlightSource.clear(); // ???
+      // combiArray - array of user selected hazards ids
+      hazardSource.forEachFeature(function(feature) {
+        var combi = feature.get("Combi").split(",");
+        for (var i = 0; i < combi.length; i++) {
+          var halt = false;
+          for (var j = 0; j < combiArray.length; j++) {
+            if (combi[i] == (combiArray[j] + 1)) {
+              hazardHighlightSource.addFeature(feature);
+              halt = true;
+              break;
+            }
+          }
+          if (halt) break;
+        }
+      });
+    }
+    this.showVectorHazardsOverlay = showVectorHazardsOverlay;
+    this.hideVectorHazardsOverlay = hideVectorHazardsOverlay;
+    this.selectOnHazardLayer = selectOnHazardLayer;
+    hideVectorHazardsOverlay();
   }
   updateMapSize() {
     // run after angular digest cycle
@@ -172,10 +246,25 @@ class HomeController {
     this.updateMapSize();
   }
   changeDisplayType() {
-    console.log("changeDisplayType");
+    var type = this.displayMapType;
+    this.hidePopup();
+    console.log("changeDisplayType: " + type);
+    if (type === this.HAZARDS_TYPE) { // list of hazards
+      console.log("show hazards in regions");
+      this.showVectorHazardsOverlay();
+    } else { // danger level
+      console.log("show default map");
+      this.hideVectorHazardsOverlay();
+    }
   }
   toggleHazardType(index) {
     console.log("toggleHazardType: " + this.HAZARDS_LIST[index]);
+    this.HAZARDS_LIST[index].selected = !this.HAZARDS_LIST[index].selected;
+    var array = [];
+    this.HAZARDS_LIST.forEach(function(element, index) {
+      if (element.selected) array.push(index);
+    })
+    this.selectOnHazardLayer(array);
   }
 }
 // inject controller with additional functions
