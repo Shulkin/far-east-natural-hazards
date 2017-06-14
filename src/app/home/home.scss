@@ -13,6 +13,9 @@ aside {
     }
   }
   .menu {
+    // height equal to hav + map + footer
+    max-height: 600px; // <=== MAGIC CONST
+    overflow-y: auto; // scroll list
     padding: 0 .5rem .5rem .75rem;
     p {color: lightgray;}
     a {color: darkgray;}
@@ -48,7 +51,10 @@ main {
     }
   }
 }
-footer {padding: .25rem;}
+footer {
+  max-height: 1rem;
+  padding: .25rem;
+}
 nav, footer {
   background-color: whitesmoke !important;
   border: 1px solid darken(whitesmoke, 5%) !important;

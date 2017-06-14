@@ -171,6 +171,12 @@ class HomeController {
     this.showAside = !this.showAside;
     this.updateMapSize();
   }
+  changeDisplayType() {
+    console.log("changeDisplayType");
+  }
+  toggleHazardType(index) {
+    console.log("toggleHazardType: " + this.HAZARDS_LIST[index]);
+  }
 }
 // inject controller with additional functions
 HomeController.$inject = ["$timeout", "$scope"];
