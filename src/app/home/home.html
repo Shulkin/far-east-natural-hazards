@@ -24,7 +24,12 @@
             </div>
             <div ng-show="home.displayMapType === home.DANGER_LEVEL">
               <p class="menu-label">Уровень опасности</p>
-              <p class="menu-label">Здесь будет цветная легенда...</p>
+              <ul class="menu-list legend">
+                <li ng-repeat="item in home.DANGER_LEGEND">
+                  <div style="background-color: {{item.color}}"></div>
+                  <span>{{item.rank}}</span>
+                </li>
+              </ul>
             </div>
           </div>
         </aside>

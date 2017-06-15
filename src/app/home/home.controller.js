@@ -49,6 +49,18 @@ class HomeController {
       {name: "Оползни", selected: false},
       {name: "Гололедно-изморозевые явления", selected: false}
     ];
+    this.DANGER_LEGEND = [
+      {color: "#2892c7", rank: 1},
+      {color: "#68a6b3", rank: 2},
+      {color: "#95bd9f", rank: 3},
+      {color: "#bfd48a", rank: 4},
+      {color: "#e7ed72", rank: 5},
+      {color: "#fce45b", rank: 6},
+      {color: "#fcb344", rank: 7},
+      {color: "#fa7b32", rank: 8},
+      {color: "#f25622", rank: 9},
+      {color: "#e81014", rank: 10}
+    ];
     // show danger level by default
     this.displayMapType = this.DANGER_LEVEL;
     // default object for selected feature
@@ -248,17 +260,17 @@ class HomeController {
   changeDisplayType() {
     var type = this.displayMapType;
     this.hidePopup();
-    console.log("changeDisplayType: " + type);
+    // console.log("changeDisplayType: " + type);
     if (type === this.HAZARDS_TYPE) { // list of hazards
-      console.log("show hazards in regions");
+      // console.log("show hazards in regions");
       this.showVectorHazardsOverlay();
     } else { // danger level
-      console.log("show default map");
+      // console.log("show default map");
       this.hideVectorHazardsOverlay();
     }
   }
   toggleHazardType(index) {
-    console.log("toggleHazardType: " + this.HAZARDS_LIST[index]);
+    // console.log("toggleHazardType: " + this.HAZARDS_LIST[index]);
     this.HAZARDS_LIST[index].selected = !this.HAZARDS_LIST[index].selected;
     var array = [];
     this.HAZARDS_LIST.forEach(function(element, index) {
