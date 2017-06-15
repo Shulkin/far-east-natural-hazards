@@ -100,42 +100,27 @@ class HomeController {
     });
     var hazardLayer = new ol.layer.Vector({
       source: hazardSource,
-      style: new ol.style.Style({
-        fill: new ol.style.Fill({
-          color: "rgba(255, 255, 255, 0)"
-        }),
-        stroke: new ol.style.Stroke({
-          color: "rgba(255, 255, 255, 0)",
-          width: 2
-        })
+      style: null // empty style
+    });
+    var selectedStyle = new ol.style.Style({
+      fill: new ol.style.Fill({
+        color: "rgba(255, 255, 255, 0.75)"
+      }),
+      stroke: new ol.style.Stroke({
+        color: "#bc53db",
+        width: 2
       })
     });
     var hazardHighlightSource = new ol.source.Vector();
     var hazardHighlightLayer = new ol.layer.Vector({
       source: hazardHighlightSource,
-      style: new ol.style.Style({
-        fill: new ol.style.Fill({
-          color: "rgba(255, 255, 255, 0.5)"
-        }),
-        stroke: new ol.style.Stroke({
-          color: "#c04fe2",
-          width: 2
-        })
-      })
+      style: selectedStyle
     })
     // ===
     var vectorSource = new ol.source.Vector();
     var vectorLayer = new ol.layer.Vector({
       source: vectorSource,
-      style: new ol.style.Style({
-        fill: new ol.style.Fill({
-          color: "rgba(255, 255, 255, 0.5)"
-        }),
-        stroke: new ol.style.Stroke({
-          color: "#c04fe2",
-          width: 2
-        })
-      })
+      style: selectedStyle
     });
     // elements that make up the popup
     var container = $("#popup")[0];
