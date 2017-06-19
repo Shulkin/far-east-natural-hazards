@@ -1,5 +1,6 @@
 import $ from "jquery";
 import ol from "openlayers3";
+import jsts from "jsts"; // JavaScript Topology Suite
 import "ol3css"; // openlayers style
 // import style for map popup
 import "./ol-popup.scss";
@@ -208,14 +209,24 @@ class HomeController {
     }
     function selectOnHazardLayer(combiArray) {
       hazardHighlightSource.clear(); // ???
+      console.log("selectOnHazardLayer");
+      console.log(jsts);
+      var parser = new jsts.io.OL3Parser();
       // combiArray - array of user selected hazards ids
+      var buffer = null;
       hazardSource.forEachFeature(function(feature) {
         var combi = feature.get("Combi").split(",");
         for (var i = 0; i < combi.length; i++) {
           var halt = false;
           for (var j = 0; j < combiArray.length; j++) {
             if (combi[i] == (combiArray[j] + 1)) {
-              hazardHighlightSource.addFeature(feature);
+              var geom = parser.read(feature.getGeometry());
+              if (buffer == null) {
+                buffer = geom;
+              } else {
+                buffer = buffer.union(geom);
+              }
+              // hazardHighlightSource.addFeature(feature);
               halt = true;
               break;
             }
@@ -223,6 +234,9 @@ class HomeController {
           if (halt) break;
         }
       });
+      var feat = new ol.Feature();
+      feat.setGeometry(parser.write(buffer));
+      hazardHighlightSource.addFeature(new ol.Feature);
     }
     this.showVectorHazardsOverlay = showVectorHazardsOverlay;
     this.hideVectorHazardsOverlay = hideVectorHazardsOverlay;
