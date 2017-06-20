@@ -1,6 +1,6 @@
 import $ from "jquery";
 import ol from "openlayers3";
-import "jsts"; // JavaScript Topology Suite
+import * as jsts from "jsts"; // JavaScript Topology Suite
 import "ol3css"; // openlayers style
 // import style for map popup
 import "./ol-popup.scss";
@@ -105,7 +105,7 @@ class HomeController {
     });
     var selectedStyle = new ol.style.Style({
       fill: new ol.style.Fill({
-        color: "rgba(255, 255, 255, 0.75)"
+        color: "rgba(255, 255, 255, 0.8)"
       }),
       stroke: new ol.style.Stroke({
         color: "#bc53db",
@@ -207,36 +207,36 @@ class HomeController {
       hazardLayer.setVisible(false);
       hazardHighlightLayer.setVisible(false);
     }
-    function selectOnHazardLayer(combiArray) {
-      hazardHighlightSource.clear(); // ???
-      console.log("selectOnHazardLayer");
-      console.log(jsts);
-      var parser = new jsts.io.OL3Parser();
-      // combiArray - array of user selected hazards ids
-      var buffer = null;
-      hazardSource.forEachFeature(function(feature) {
-        var combi = feature.get("Combi").split(",");
-        for (var i = 0; i < combi.length; i++) {
-          var halt = false;
-          for (var j = 0; j < combiArray.length; j++) {
-            if (combi[i] == (combiArray[j] + 1)) {
-              var geom = parser.read(feature.getGeometry());
-              if (buffer == null) {
-                buffer = geom;
-              } else {
-                buffer = buffer.union(geom);
-              }
-              // hazardHighlightSource.addFeature(feature);
-              halt = true;
-              break;
-            }
+    function selectOnHazardLayer(combi) {
+      hazardHighlightSource.clear();
+      var reader = new jsts.io.WKTReader();
+      var writer = new jsts.io.WKTWriter();
+      var format = new ol.format.WKT();
+      function containsAny(source, target) {
+        for (var i = 0; i < source.length; i++) {
+          for (var j = 0; j < target.length; j++) {
+            if (source[i] == target[j]) return true;
           }
-          if (halt) break;
         }
-      });
-      var feat = new ol.Feature();
-      feat.setGeometry(parser.write(buffer));
-      hazardHighlightSource.addFeature(new ol.Feature);
+        return false;
+      }
+      if (combi.length > 0) {
+        var buffer = null;
+        hazardSource.forEachFeature(function(feature) {
+          var featureCombi = feature.get("Combi").split(",");
+          if (containsAny(combi, featureCombi)) {
+            var wkt = format.writeGeometry(feature.getGeometry());
+            var geometry = reader.read(wkt);
+            buffer = buffer ? buffer.union(geometry) : geometry;
+            // hazardHighlightSource.addFeature(feature);
+          }
+        });
+        if (buffer) {
+          var wkt = writer.write(buffer);
+          var feature = format.readFeature(wkt);
+          hazardHighlightSource.addFeature(feature);
+        }
+      }
     }
     this.showVectorHazardsOverlay = showVectorHazardsOverlay;
     this.hideVectorHazardsOverlay = hideVectorHazardsOverlay;
@@ -259,21 +259,18 @@ class HomeController {
   changeDisplayType() {
     var type = this.displayMapType;
     this.hidePopup();
-    // console.log("changeDisplayType: " + type);
     if (type === this.HAZARDS_TYPE) { // list of hazards
-      // console.log("show hazards in regions");
       this.showVectorHazardsOverlay();
     } else { // danger level
-      // console.log("show default map");
       this.hideVectorHazardsOverlay();
     }
   }
   toggleHazardType(index) {
-    // console.log("toggleHazardType: " + this.HAZARDS_LIST[index]);
     this.HAZARDS_LIST[index].selected = !this.HAZARDS_LIST[index].selected;
     var array = [];
     this.HAZARDS_LIST.forEach(function(element, index) {
-      if (element.selected) array.push(index);
+      // +1 mandatory!
+      if (element.selected) array.push(index + 1);
     })
     this.selectOnHazardLayer(array);
   }
