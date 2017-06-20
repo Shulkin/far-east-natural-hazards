@@ -1,6 +1,6 @@
 import $ from "jquery";
 import ol from "openlayers3";
-import jsts from "jsts"; // JavaScript Topology Suite
+import "jsts"; // JavaScript Topology Suite
 import "ol3css"; // openlayers style
 // import style for map popup
 import "./ol-popup.scss";
