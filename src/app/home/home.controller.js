@@ -103,19 +103,24 @@ class HomeController {
       source: hazardSource,
       style: null // empty style
     });
+    var hazardStyle = new ol.style.Style({
+      fill: new ol.style.Fill({
+        color: "rgba(228, 44, 232, 0.6)"
+      })
+    });
     var selectedStyle = new ol.style.Style({
       fill: new ol.style.Fill({
-        color: "rgba(255, 255, 255, 0.8)"
+        color: "rgba(228, 44, 232, 0.6)"
       }),
       stroke: new ol.style.Stroke({
-        color: "#bc53db",
+        color: "#3e3e3e",
         width: 2
       })
     });
     var hazardHighlightSource = new ol.source.Vector();
     var hazardHighlightLayer = new ol.layer.Vector({
       source: hazardHighlightSource,
-      style: selectedStyle
+      style: hazardStyle
     })
     // ===
     var vectorSource = new ol.source.Vector();
@@ -208,6 +213,7 @@ class HomeController {
       hazardHighlightLayer.setVisible(false);
     }
     function selectOnHazardLayer(combi) {
+      var COMPLEX_HIGHLIGHT = false;
       hazardHighlightSource.clear();
       var reader = new jsts.io.WKTReader();
       var writer = new jsts.io.WKTWriter();
@@ -225,10 +231,13 @@ class HomeController {
         hazardSource.forEachFeature(function(feature) {
           var featureCombi = feature.get("Combi").split(",");
           if (containsAny(combi, featureCombi)) {
-            var wkt = format.writeGeometry(feature.getGeometry());
-            var geometry = reader.read(wkt);
-            buffer = buffer ? buffer.union(geometry) : geometry;
-            // hazardHighlightSource.addFeature(feature);
+            if (COMPLEX_HIGHLIGHT) {
+              var wkt = format.writeGeometry(feature.getGeometry());
+              var geometry = reader.read(wkt);
+              buffer = buffer ? buffer.union(geometry) : geometry;
+            } else {
+              hazardHighlightSource.addFeature(feature);
+            }
           }
         });
         if (buffer) {
